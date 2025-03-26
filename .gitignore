@@ -1,0 +1,5 @@
+lib
+lib/*
+.vscode
+.vscode/*
+*.pdf
