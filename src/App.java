@@ -1,29 +1,28 @@
-import java.util.ArrayList;
-
-import TP1.TDA.List.LinkedList.LinkedList;
-
 public class App {
     public static void main(String[] args) throws Exception {
-        LinkedList<Integer> list = new LinkedList<Integer>();
-        list.insertFront(1);
-        list.insertFront(2);
-        list.insertFront(3);
-        list.insertFront(4);
-        list.insertFront(5);
-        for(int i=0; i<list.size(); i++){
-            System.out.println(list.get(i));
-        }
-        for(Integer elem: list){
-            System.out.println(elem);
-        }
+        int[] arreglo1 = {1,2,3,4,5,6};
+        int[] arreglo2 = {1,2,3,4,3,6};
+        int[] arreglo3 = {1,2,0,4,5};
+        System.out.println(printArr(arreglo1) + " Esta " + resultOrder(arreglo1));
+        System.out.println(printArr(arreglo2) + " Esta " + resultOrder(arreglo2));
+        System.out.println(printArr(arreglo3) + " Esta " + resultOrder(arreglo3));
     }
 
-    public boolean checkOrder(ArrayList<Integer> arr, int left, int right){
-        if(arr.get(left)>arr.get(right)){
-            return false;
+    public static String printArr(int[] arr){
+        String retorno = "La lista es la siguiente: [";
+        for(int i: arr){
+            retorno+=i + " ";
         }
-        if(left>=right)
-            return true;
-        return checkOrder(arr, left+1, right-1);
+        return retorno+="]";
+    }
+
+    public static String resultOrder(int[] arr){
+        return checkOrder(arr, 0) ? "ordenado" : "desordenado";
+    }
+
+    public static boolean checkOrder(int[] arr, int pointer){
+        if(pointer==arr.length-1) return true;
+        if(arr[pointer]>arr[pointer+1]) return false;
+        return checkOrder(arr, pointer+1);
     }
 }

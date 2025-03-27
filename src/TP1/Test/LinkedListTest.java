@@ -54,7 +54,7 @@ public class LinkedListTest {
         list.insertOrder(10);
         list.insertOrder(20);
         list.insertOrder(30);
-        list2.insertOrder(20);
+        list2.insertOrder(10);
         list2.insertOrder(30);
         list2.insertOrder(40);
 
