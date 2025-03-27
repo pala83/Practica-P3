@@ -49,23 +49,55 @@ public class LinkedListTest {
     }
 
     @Test
+    public void intersectionOrderedTest() {
+        LinkedList<Integer> list2 = new LinkedList<>();
+        list.insertOrder(10);
+        list.insertOrder(20);
+        list.insertOrder(30);
+        list2.insertOrder(20);
+        list2.insertOrder(30);
+        list2.insertOrder(40);
+
+        LinkedList<Integer> result = list.intersection(list2, true);
+
+        assertEquals(2, result.size());
+        assertEquals((Integer) 20, result.get(0));
+        assertEquals((Integer) 30, result.get(1));
+    }
+
+    @Test
+    public void differenceOrderedTest() {
+        LinkedList<Integer> list2 = new LinkedList<>();
+        list.insertOrder(10);
+        list.insertOrder(20);
+        list.insertOrder(30);
+        list2.insertOrder(20);
+        list2.insertOrder(40);
+
+        LinkedList<Integer> result = list.difference(list2, true);
+
+        assertEquals(2, result.size());
+        assertEquals((Integer) 10, result.get(0));
+        assertEquals((Integer) 30, result.get(1));
+    }
+
+    @Test
     public void removeTest() {
         list.insertFront(10);
         list.insertFront(20);
         list.insertFront(30);
-
-        list.remove(20);
-
+        list.remove(1);
+    
         assertEquals(2, list.size());
         assertEquals(Integer.valueOf(30), list.get(0));
         assertEquals(Integer.valueOf(10), list.get(1));
         assertNull(list.get(2));
-
-        list.remove(30);
+    
+        list.remove(0);
         assertEquals(1, list.size());
         assertEquals(Integer.valueOf(10), list.get(0));
-
-        list.remove(10);
+    
+        list.remove(0);
         assertTrue(list.isEmpty());
     }
 
