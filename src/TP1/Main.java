@@ -1,6 +1,9 @@
-package TP1.Operator;
+package TP1;
 
 import java.util.Random;
+
+import TP1.Operator.Difference;
+import TP1.Operator.Intersection;
 import TP1.TDA.List.LinkedList.LinkedList;
 
 public class Main {
