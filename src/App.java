@@ -1,5 +1,3 @@
-import java.lang.reflect.Array;
-import java.util.ArrayList;
 import java.util.Arrays;
 
 import TP2.Sort.Mergesort.Mergesort;

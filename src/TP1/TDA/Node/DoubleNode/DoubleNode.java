@@ -1,32 +1,32 @@
 package TP1.TDA.Node.DoubleNode;
 
 public class DoubleNode<T> {
-    private T info;
-    private DoubleNode<T> next;
-    private DoubleNode<T> prev;
+    private T value;
+    private DoubleNode<T> right;
+    private DoubleNode<T> left;
 
-    public DoubleNode(T info, DoubleNode<T> prev, DoubleNode<T> next) {
-        this.setInfo(info);
-        this.setNext(next);
-        this.setPrev(prev);
+    public DoubleNode(T value, DoubleNode<T> left, DoubleNode<T> right) {
+        this.setValue(value);
+        this.setRight(right);
+        this.setLeft(left);
     }
 
-    public T getInfo() {
-        return info;
+    public T getValue() {
+        return this.value;
     }
-    public DoubleNode<T> getNext() {
-        return next;
+    public DoubleNode<T> getRight() {
+        return this.right;
     }
-    public DoubleNode<T> getPrev() {
-        return prev;
+    public DoubleNode<T> getLeft() {
+        return this.left;
     }
-    public void setInfo(T info) {
-        this.info = info;
+    public void setValue(T value) {
+        this.value = value;
     }
-    public void setNext(DoubleNode<T> next) {
-        this.next = next;
+    public void setRight(DoubleNode<T> right) {
+        this.right = right;
     }
-    public void setPrev(DoubleNode<T> prev) {
-        this.prev = prev;
+    public void setLeft(DoubleNode<T> left) {
+        this.left = left;
     }
 }

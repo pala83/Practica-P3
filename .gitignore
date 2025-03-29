@@ -3,3 +3,4 @@ lib/*
 .vscode
 .vscode/*
 *.pdf
+bin

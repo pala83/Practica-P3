@@ -167,6 +167,30 @@ public class LinkedList<T extends Comparable<T>> implements Iterable<T> {
         return current==null ? -1 : i;
     }
 
+    public boolean isOrdered(){
+        if(this.isEmpty()){
+            return true;
+        }
+        SimpleNode<T> current = this.first;
+        while (current.getNext() != null) {
+            if(current.getInfo().compareTo(current.getNext().getInfo()) > 0){
+                return false;
+            }
+            current = current.getNext();
+        }
+        return true;
+    }
+
+    public LinkedList<T> clone(){
+        LinkedList<T> clone = new LinkedList<T>();
+        SimpleNode<T> current = this.first;
+        while (current != null) {
+            clone.insertOrder(current.getInfo());
+            current = current.getNext();
+        }
+        return clone;
+    }
+
     @Override
     public String toString() {
         if(this.isEmpty()){
@@ -185,5 +209,16 @@ public class LinkedList<T extends Comparable<T>> implements Iterable<T> {
     @Override
     public Iterator<T> iterator() {
         return new SimpleNodeIterator<T>(this.first);
+    }
+
+    public String imprimirInverso(){
+        return this.imprimirInversoRecursivo(this.first);
+    }
+
+    public String imprimirInversoRecursivo(SimpleNode<T> current){
+        if(current == null){
+            return "";
+        }
+        return this.imprimirInversoRecursivo(current.getNext()) + current.getInfo() + " ";
     }
 }

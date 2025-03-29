@@ -17,45 +17,45 @@ public class DoubleLinkedList<T extends Comparable<T>> implements Iterable<T> {
         this.size = 0;
     }
 
-    public void insertFront(T info) {
-        DoubleNode<T> tmp = new DoubleNode<T>(info, null, this.first);
+    public void insertFront(T value) {
+        DoubleNode<T> tmp = new DoubleNode<T>(value, null, this.first);
         if (this.isEmpty()) {
             this.last = tmp;
         } else {
-            this.first.setPrev(tmp);
+            this.first.setLeft(tmp);
         }
         this.first = tmp;
         this.size++;
     }
 
-    public void insertBack(T info) {
-        DoubleNode<T> tmp = new DoubleNode<T>(info, this.last, null);
+    public void insertBack(T value) {
+        DoubleNode<T> tmp = new DoubleNode<T>(value, this.last, null);
         if (this.isEmpty()) {
             this.first = tmp;
         } else {
-            this.last.setNext(tmp);
+            this.last.setRight(tmp);
         }
         this.last = tmp;
         this.size++;
     }
 
-    public void insertORder(T info){
-        if(this.isEmpty() || info.compareTo(this.first.getInfo()) <= 0){
-            this.insertFront(info);
+    public void insertORder(T value){
+        if(this.isEmpty() || value.compareTo(this.first.getValue()) <= 0){
+            this.insertFront(value);
         }
-        else if(info.compareTo(this.last.getInfo()) >= 0){
-            this.insertBack(info);
+        else if(value.compareTo(this.last.getValue()) >= 0){
+            this.insertBack(value);
         }
         else{
-            DoubleNode<T> tmp = new DoubleNode<T>(info, null, null);
+            DoubleNode<T> tmp = new DoubleNode<T>(value, null, null);
             DoubleNode<T> pointer = this.first;
-            while (pointer.getNext() != null && info.compareTo(pointer.getNext().getInfo()) > 0) {
-                pointer = pointer.getNext();
+            while (pointer.getRight() != null && value.compareTo(pointer.getRight().getValue()) > 0) {
+                pointer = pointer.getRight();
             }
-            tmp.setNext(pointer.getNext());
-            tmp.setPrev(pointer);
-            pointer.setNext(tmp);
-            pointer.getNext().setPrev(tmp);
+            tmp.setRight(pointer.getRight());
+            tmp.setLeft(pointer);
+            pointer.setRight(tmp);
+            pointer.getRight().setLeft(tmp);
             this.size++;
         }
     }
@@ -64,30 +64,30 @@ public class DoubleLinkedList<T extends Comparable<T>> implements Iterable<T> {
         if (this.isEmpty()) {
             return null;
         }
-        T info = this.first.getInfo();
-        this.first = this.first.getNext();
+        T value = this.first.getValue();
+        this.first = this.first.getRight();
         if (this.first == null) {
             this.last = null;
         } else {
-            this.first.setPrev(null);
+            this.first.setLeft(null);
         }
         this.size--;
-        return info;
+        return value;
     }
 
     public T extractBack() {
         if (this.isEmpty()) {
             return null;
         }
-        T info = this.last.getInfo();
-        this.last = this.last.getPrev();
+        T value = this.last.getValue();
+        this.last = this.last.getLeft();
         if (this.last == null) {
             this.first = null;
         } else {
-            this.last.setNext(null);
+            this.last.setRight(null);
         }
         this.size--;
-        return info;
+        return value;
 
     }
 
@@ -98,21 +98,21 @@ public class DoubleLinkedList<T extends Comparable<T>> implements Iterable<T> {
         DoubleNode<T> current = this.first;
         int i = 0;
         while (current != null && i < index) {
-            current = current.getNext();
+            current = current.getRight();
             i++;
         }
         if(current == null){
             return;
         }
-        if(current.getPrev() == null){
+        if(current.getLeft() == null){
             this.extractFront();
         }
-        else if(current.getNext() == null){
+        else if(current.getRight() == null){
             this.extractBack();
         }
         else{
-            current.getPrev().setNext(current.getNext());
-            current.getNext().setPrev(current.getPrev());
+            current.getLeft().setRight(current.getRight());
+            current.getRight().setLeft(current.getLeft());
             this.size--;
         }
     }
@@ -128,24 +128,24 @@ public class DoubleLinkedList<T extends Comparable<T>> implements Iterable<T> {
         DoubleNode<T> current = this.first;
         int i = 0;
         while (current != null && i < index) {
-            current = current.getNext();
+            current = current.getRight();
             i++;
         }
-        return current==null ? null : current.getInfo();
+        return current==null ? null : current.getValue();
     }
 
     public int size() {
         return this.size;
     }
 
-    public int indexOf(T info) {
+    public int indexOf(T value) {
         if(this.isEmpty()){
             return -1;
         }
         DoubleNode<T> current = this.first;
         int i = 0;
-        while (current != null && !current.getInfo().equals(info)) {
-            current = current.getNext();
+        while (current != null && !current.getValue().equals(value)) {
+            current = current.getRight();
             i++;
         }
         return current == null ? -1 : i;
@@ -159,9 +159,9 @@ public class DoubleLinkedList<T extends Comparable<T>> implements Iterable<T> {
         StringBuilder sb = new StringBuilder();
         DoubleNode<T> current = this.first;
         while (current != null) {
-            sb.append(current.getInfo());
+            sb.append(current.getValue());
             sb.append(" ");
-            current = current.getNext();
+            current = current.getRight();
         }
         return sb.toString();
     }

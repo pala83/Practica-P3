@@ -16,7 +16,7 @@ public class SimpleNodeIterator<T> implements Iterator<T> {
 
     @Override
     public boolean hasNext() {
-        return this.current.getNext() != null;   
+        return this.current != null;   
     }
 
     @Override

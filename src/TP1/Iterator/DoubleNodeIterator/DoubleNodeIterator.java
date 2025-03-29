@@ -16,13 +16,13 @@ public class DoubleNodeIterator<T> implements Iterator<T> {
 
     @Override
     public boolean hasNext() {
-        return this.current.getNext() != null;
+        return this.current.getRight() != null;
     }
 
     @Override
     public T next() {
-        T info = this.current.getInfo();
-        this.current = this.current.getNext();
+        T info = this.current.getValue();
+        this.current = this.current.getRight();
         return info;
     }
 

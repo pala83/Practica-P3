@@ -17,39 +17,40 @@ public class Tree<T extends Comparable<T>> {
     }
 
     private void add(DoubleNode<T> current, T value){
-        if(current.getInfo().compareTo(value) > 0){
-            if(current.getPrev() == null){
+        if(current.getValue().compareTo(value) > 0){
+            if(current.getLeft() == null){
                 DoubleNode<T> temp = new DoubleNode<T>(value, null, null);
-                current.setPrev(temp);
+                current.setLeft(temp);
             } 
             else{
-                add(current.getPrev(), value);
+                add(current.getLeft(), value);
             }
         }
-        else if(current.getInfo().compareTo(value) < 0){
-            if(current.getNext() == null){
+        else if(current.getValue().compareTo(value) < 0){
+            if(current.getRight() == null){
                 DoubleNode<T> temp = new DoubleNode<T>(value, null, null);
-                current.setNext(temp);
+                current.setRight(temp);
             }
             else{
-                add(current.getNext(), value);
+                add(current.getRight(), value);
             }
         }
     }
 
     public T getRoot(){
-        return this.root.getInfo();
+        return this.root.getValue();
     }
 
     public void printPreOrder(){
         this.preOrder(root);
+        System.out.println();
     }
 
     private void preOrder(DoubleNode<T> root){
         if(root!=null){
-            System.out.println(root.getInfo());
-            preOrder(root.getPrev());
-            preOrder(root.getNext());
+            System.out.println(root.getValue() + " ");
+            preOrder(root.getLeft());
+            preOrder(root.getRight());
         }
     }
 
