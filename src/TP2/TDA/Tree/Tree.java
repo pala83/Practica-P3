@@ -3,6 +3,7 @@ package TP2.TDA.Tree;
 import java.util.ArrayList;
 import java.util.List;
 import TP1.TDA.Node.DoubleNode.DoubleNode;
+import TP2.Operations.Aggregation.Aggregation;
 import TP2.Printer.Printer;
 
 public class Tree<T extends Comparable<T>> {
@@ -160,7 +161,30 @@ public class Tree<T extends Comparable<T>> {
         return elements;
     }
 
+    public List<T> getHeigherLeaves(T value){ // Complejidad: O(n)
+        return getHeigherLeaves(this.root, new ArrayList<T>(), value);
+    }
+
+    private List<T> getHeigherLeaves(DoubleNode<T> node, List<T> leaves, T value){
+        if(node.getLeft() == null && node.getRight() == null){
+            if(node.getValue().compareTo(value) > 0)
+                leaves.add(node.getValue());
+        }
+        else{
+            if(node.getLeft() != null)
+                getHeigherLeaves(node.getLeft(), leaves, value);
+            if(node.getRight() != null)
+                getHeigherLeaves(node.getRight(), leaves, value);
+        }
+        return leaves;
+    }
+
     public void print(Printer<T> printer){
         printer.print(this.root);
+    }
+
+    // Ejercicio 2
+    public T aggregation(Aggregation<T> aggregator){
+        return aggregator.aggregate(this.root);
     }
 }
