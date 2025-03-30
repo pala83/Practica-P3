@@ -1,4 +1,4 @@
-# Trabajo práctico 2
+# Trabajo práctico 2.1
 ## Ejercicio 1
 Algoritmo:
 

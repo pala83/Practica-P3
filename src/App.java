@@ -1,9 +1,7 @@
-import java.util.Arrays;
 import java.util.Scanner;
 
 import TP2.Sort.Mergesort.Mergesort;
 import TP2.Sort.Quicksort.Quicksort;
-import TP2.TDA.Tree.Tree;
 import TP2.Utils.ArrayUtils;
 import TP2.Utils.Utils;
 
