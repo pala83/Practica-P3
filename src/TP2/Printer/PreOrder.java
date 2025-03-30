@@ -10,7 +10,7 @@ public class PreOrder<T> implements Printer<T> {
         System.out.println();        
     }
 
-    public void preOrder(DoubleNode<T> node) {
+    private void preOrder(DoubleNode<T> node) {
         if (node != null) {
             System.out.print(node.getValue() + " ");
             preOrder(node.getLeft());

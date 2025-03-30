@@ -10,7 +10,7 @@ public class PostOrder<T> implements Printer<T> {
         System.out.println();        
     }
 
-    public void postOrder(DoubleNode<T> node) {
+    private void postOrder(DoubleNode<T> node) {
         if (node != null) {
             postOrder(node.getLeft());
             postOrder(node.getRight());

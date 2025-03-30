@@ -10,7 +10,7 @@ public class InOrder<T> implements Printer<T> {
         System.out.println();        
     }
 
-    public void inOrder(DoubleNode<T> node) {
+    private void inOrder(DoubleNode<T> node) {
         if (node != null) {
             inOrder(node.getLeft());
             System.out.print(node.getValue() + " ");
