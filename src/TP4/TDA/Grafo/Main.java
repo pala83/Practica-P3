@@ -1,17 +1,32 @@
 package TP4.TDA.Grafo;
 
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+
+import TP4.TDA.Arco.Arco;
 
 public class Main {
 
     public static void main(String[] args) {
         GrafoD<Double> grafo = new GrafoD<>();
-        cargarVertices(grafo, 5);
-        System.out.println("Grafo Vertices: " + grafo.obtenerVertices().toString());
+        cargarGrafo(grafo, 7);
+        System.out.println("Grafo random de "+grafo.cantidadVertices()+" vertices :");
+        Iterator<Integer> vertices = grafo.obtenerVertices();
+        while(vertices.hasNext()){
+            Integer vertice = vertices.next();
+            Iterator<Integer> adyacentes = grafo.obtenerAdyacentes(vertice);
+            System.out.println("V: " + vertice + " -> " + imprimirVertices(adyacentes));
+        }
+        System.out.println("Arcos: "+grafo.cantidadArcos()+ " en total");
+        Iterator<Arco<Double>> arcos = grafo.obtenerArcos();
+        while(arcos.hasNext()){
+            Arco<Double> arco = arcos.next();
+            System.out.println("A: " + arco.getVerticeOrigen() + " -> " + arco.getVerticeDestino() + " : " + arco.getEtiqueta());
+        }
     }
 
-    public static void cargarVertices(GrafoD<Double> grafo, int vertices) {
+    public static void cargarGrafo(GrafoD<Double> grafo, int vertices) {
         List<Integer> tmp = new LinkedList<>();
         for (int i = 1; i <= vertices; i++) {
             tmp.add(i);
@@ -24,8 +39,22 @@ public class Main {
             for(int j = 0; j < cantAdy; j++){
                 Integer vDestino = tmp.get(j);
                 if(!vOrigen.equals(vDestino))
-                    grafo.agregarArco(vOrigen, vDestino, Math.random());
+                    grafo.agregarArco(vOrigen, vDestino, Math.random()*100);
             }
         }
+    }
+
+    public static String imprimirVertices(Iterator<Integer> it) {
+        Iterator<Integer> tmp = it;
+        StringBuilder sb = new StringBuilder();
+        sb.append("[");
+        while(tmp.hasNext()){
+            sb.append(tmp.next());
+            if(tmp.hasNext()){
+                sb.append(", ");
+            }
+        }
+        sb.append("]");
+        return sb.toString();
     }
 }
