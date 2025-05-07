@@ -1,10 +1,10 @@
-package TP4.TDA.Grafo;
-
+package TP4;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
 import TP4.TDA.Arco.Arco;
+import TP4.TDA.Grafo.GrafoD;
 
 public class Main {
 
@@ -24,6 +24,8 @@ public class Main {
             Arco<Double> arco = arcos.next();
             System.out.println("A: " + arco.getVerticeOrigen() + " -> " + arco.getVerticeDestino() + " : " + arco.getEtiqueta());
         }
+
+        System.out.println("DFS: " + grafo.DFS());
     }
 
     public static void cargarGrafo(GrafoD<Double> grafo, int vertices) {

@@ -2,6 +2,8 @@
 package TP4.TDA.Grafo;
 
 import java.util.Iterator;
+import java.util.Map;
+
 import TP4.TDA.Arco.Arco;
 
 public interface Grafo<T> {
@@ -18,4 +20,5 @@ public interface Grafo<T> {
 	public Iterator<Integer> obtenerAdyacentes(int verticeId); 			// Testeado
 	public Iterator<Arco<T>> obtenerArcos(); 							// Testeado
 	public Iterator<Arco<T>> obtenerArcos(int verticeId); 				// Testeado
+	public Map<Integer, Tmp> DFS();
 }

@@ -1,6 +1,7 @@
 package TP4.TDA.Grafo;
 
 import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -116,4 +117,34 @@ public class GrafoD<T> implements Grafo<T> {
 		return null;
 	}
 
+	@Override
+	public Map<Integer, Tmp> DFS() {
+		Map<Integer, Tmp> tmpMap = new HashMap<>();
+		Iterator<Integer> it = this.obtenerVertices();
+		while(it.hasNext()) {
+			Integer vertice = it.next();
+			tmpMap.put(vertice, new Tmp());
+		}
+		int tiempo = 0;
+		for(Integer vertice : tmpMap.keySet()) {
+			DFSVisit(vertice, tmpMap.get(vertice), tiempo++, tmpMap);
+		}
+		return tmpMap;
+	}
+
+	private void DFSVisit(Integer vertice, Tmp tmp, int tiempo, Map<Integer, Tmp> tmpMap) {
+		tmp.setColor("amarillo");
+		tiempo=tiempo+1;
+		tmp.setTI(tiempo);
+		Iterator<Integer> ady = this.obtenerAdyacentes(vertice);
+		while(ady.hasNext()) {
+			Integer adyacente = ady.next();
+			Tmp tmpAdy = tmpMap.get(adyacente);
+			if(tmpAdy.getColor().equals("blanco"))
+				DFSVisit(adyacente, tmpAdy, tiempo+1, tmpMap);
+		}
+		tmp.setColor("negro");
+		tiempo=tiempo+1;
+		tmp.setTF(tiempo);
+	}
 }
