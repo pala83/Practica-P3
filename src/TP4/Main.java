@@ -2,15 +2,17 @@ package TP4;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import TP4.TDA.Arco.Arco;
 import TP4.TDA.Grafo.GrafoD;
+import TP4.TDA.Grafo.Tmp;
 
 public class Main {
 
     public static void main(String[] args) {
         GrafoD<Double> grafo = new GrafoD<>();
-        cargarGrafo(grafo, 7);
+        cargarGrafo(grafo, 7);  
         System.out.println("Grafo random de "+grafo.cantidadVertices()+" vertices :");
         Iterator<Integer> vertices = grafo.obtenerVertices();
         while(vertices.hasNext()){
@@ -25,7 +27,10 @@ public class Main {
             System.out.println("A: " + arco.getVerticeOrigen() + " -> " + arco.getVerticeDestino() + " : " + arco.getEtiqueta());
         }
 
-        System.out.println("DFS: " + grafo.DFS());
+        System.out.println("DFS: ");
+        for(Map.Entry<Integer, Tmp> entry : grafo.DFS().entrySet()){
+            System.out.println(entry.getKey() + " -> " + entry.getValue());
+        }
     }
 
     public static void cargarGrafo(GrafoD<Double> grafo, int vertices) {

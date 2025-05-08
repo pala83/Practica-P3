@@ -30,6 +30,6 @@ public class Tmp {
 	}
     @Override
     public String toString() {
-        return "Tmp [color=" + color + ", TI=" + TI + ", TF=" + TF + "]\n";
+        return "[color=" + color + ", TI=" + TI + ", TF=" + TF + "]";
     }
 }

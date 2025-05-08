@@ -126,25 +126,29 @@ public class GrafoD<T> implements Grafo<T> {
 			tmpMap.put(vertice, new Tmp());
 		}
 		int tiempo = 0;
-		for(Integer vertice : tmpMap.keySet()) {
-			DFSVisit(vertice, tmpMap.get(vertice), tiempo++, tmpMap);
+		for(Map.Entry<Integer, Tmp> entry : tmpMap.entrySet()) {
+			if(entry.getValue().getColor().equals("blanco")) {
+				tiempo = this.DFSVisit(entry.getKey(), tiempo, tmpMap);
+			}
 		}
 		return tmpMap;
 	}
 
-	private void DFSVisit(Integer vertice, Tmp tmp, int tiempo, Map<Integer, Tmp> tmpMap) {
+	private int DFSVisit(Integer vertice, int tiempo, Map<Integer, Tmp> tmpMap) {
+		Tmp tmp = tmpMap.get(vertice);
 		tmp.setColor("amarillo");
-		tiempo=tiempo+1;
+		tiempo++;
 		tmp.setTI(tiempo);
 		Iterator<Integer> ady = this.obtenerAdyacentes(vertice);
 		while(ady.hasNext()) {
 			Integer adyacente = ady.next();
 			Tmp tmpAdy = tmpMap.get(adyacente);
 			if(tmpAdy.getColor().equals("blanco"))
-				DFSVisit(adyacente, tmpAdy, tiempo+1, tmpMap);
+				tiempo = DFSVisit(adyacente, tiempo, tmpMap);
 		}
 		tmp.setColor("negro");
-		tiempo=tiempo+1;
+		tiempo++;
 		tmp.setTF(tiempo);
+		return tiempo;
 	}
 }
