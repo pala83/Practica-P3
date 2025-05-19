@@ -2,6 +2,7 @@
 package TP4.TDA.Grafo;
 
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import TP4.TDA.Arco.Arco;
@@ -21,4 +22,8 @@ public interface Grafo<T> {
 	public Iterator<Arco<T>> obtenerArcos(); 							// Testeado
 	public Iterator<Arco<T>> obtenerArcos(int verticeId); 				// Testeado
 	public Map<Integer, Tmp> DFS();
+	public Map<Integer, Tmp> BFS();
+	public List<Integer> ciclo();
+	public List<Integer> caminoMasLargo(int i, int j);
+	
 }
