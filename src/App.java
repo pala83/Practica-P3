@@ -2,16 +2,21 @@
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
+import java.util.Map.Entry;
 
+import TP4.Solutions.BFS;
+import TP4.Solutions.CaminoMayorLongitud;
+import TP4.Solutions.DFS;
+import TP4.Solutions.ExisteCiclo;
+import TP4.Solutions.Trazo;
 import TP4.TDA.Arco.Arco;
+import TP4.TDA.Grafo.Grafo;
 import TP4.TDA.Grafo.GrafoD;
-import TP4.TDA.Grafo.Tmp;
 
 public class App {
 
     public static void main(String[] args) {
-        GrafoD<Double> grafo = new GrafoD<>();
+        Grafo<Double> grafo = new GrafoD<>();
         cargarGrafo(grafo, 7);  
         System.out.println("Grafo random de "+grafo.cantidadVertices()+" vertices :");
         Iterator<Integer> vertices = grafo.obtenerVertices();
@@ -26,40 +31,36 @@ public class App {
             Arco<Double> arco = arcos.next();
             System.out.println("A: " + arco.getVerticeOrigen() + " -> " + arco.getVerticeDestino() + " : " + arco.getEtiqueta());
         }
-
-        //System.out.println("DFS: ");
-        //for(Map.Entry<Integer, Tmp> entry : grafo.DFS().entrySet()){
-        //    System.out.println(entry.getKey() + " -> " + entry.getValue());
-        //}
-        System.out.println("BFS: ");
-        for(Map.Entry<Integer, Tmp> entry : grafo.BFS().entrySet()){
+        // Ejercicio 2
+        DFS dfs = new DFS(grafo);
+        dfs.forest();
+        System.out.println("DFS:");
+        for(Entry<Integer, Trazo> entry : dfs.getTrazo().entrySet()){
             System.out.println(entry.getKey() + " -> " + entry.getValue());
         }
+        dfs.cleanTrazo();
 
-        System.out.println("Ciclo: " + grafo.ciclo());
-
-        GrafoD<Double> grafoAciclico = new GrafoD<>();
-        cargarGrafoAciclico(grafoAciclico, 7);
-        System.out.println("Grafo aciclico de "+grafoAciclico.cantidadVertices()+" vertices :");
-        Iterator<Integer> verticesAciclico = grafoAciclico.obtenerVertices();
-        while(verticesAciclico.hasNext()){
-            Integer vertice = verticesAciclico.next();
-            Iterator<Integer> adyacentes = grafoAciclico.obtenerAdyacentes(vertice);
-            System.out.println("V: " + vertice + " -> " + imprimirVertices(adyacentes));
+        BFS bfs = new BFS(grafo);
+        bfs.forest();
+        System.out.println("BFS:");
+        for(Entry<Integer, Trazo> entry : bfs.getTrazo().entrySet()){
+            System.out.println(entry.getKey() + " -> " + entry.getValue());
         }
-        System.out.println("Arcos: "+grafoAciclico.cantidadArcos()+ " en total");
-        Iterator<Arco<Double>> arcosAciclico = grafoAciclico.obtenerArcos();
-        while(arcosAciclico.hasNext()){
-            Arco<Double> arco = arcosAciclico.next();
-            System.out.println("A: " + arco.getVerticeOrigen() + " -> " + arco.getVerticeDestino() + " : " + arco.getEtiqueta());
-        }
+        bfs.cleanTrazo();
+        //Ejercicio 3
+        ExisteCiclo existeCiclo = new ExisteCiclo(grafo);
+        existeCiclo.forest();
+        System.out.println("Ciclo: " + existeCiclo.getCiclo());
+        existeCiclo.clearCiclo();
 
-        System.out.println("Camino mas largo: " + grafoAciclico.caminoMasLargo(1, 7));
-        System.out.println("Camino mas largo: " + grafoAciclico.caminoMasLargo(5, 1));
-        System.out.println("Camino mas largo: " + grafoAciclico.caminoMasLargo(1, 3));
+        //Ejercicio 4
+        CaminoMayorLongitud caminoMayorLongitud = new CaminoMayorLongitud(grafo);
+        caminoMayorLongitud.buscarCamino(2, 5);
+        System.out.println("Camino mayor longitud: " + caminoMayorLongitud.getMejorCamino());
+        caminoMayorLongitud.cleanMejorCamino();
     }
 
-    public static void cargarGrafo(GrafoD<Double> grafo, int vertices) {
+    public static void cargarGrafo(Grafo<Double> grafo, int vertices) {
         List<Integer> tmp = new LinkedList<>();
         for (int i = 1; i <= vertices; i++) {
             tmp.add(i);
@@ -97,7 +98,6 @@ public class App {
             listaVertices.add(i);
             grafo.agregarVertice(i);
         }
-    
         for (int i = 0; i < listaVertices.size(); i++) {
             Integer origen = listaVertices.get(i);
             for (int j = i + 1; j < listaVertices.size(); j++) {
