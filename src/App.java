@@ -6,6 +6,7 @@ import java.util.Map.Entry;
 
 import TP4.Solutions.BFS;
 import TP4.Solutions.CaminoMayorLongitud;
+import TP4.Solutions.Caminos;
 import TP4.Solutions.DFS;
 import TP4.Solutions.ExisteCiclo;
 import TP4.Solutions.Trazo;
@@ -58,6 +59,11 @@ public class App {
         caminoMayorLongitud.buscarCamino(2, 5);
         System.out.println("Camino mayor longitud: " + caminoMayorLongitud.getMejorCamino());
         caminoMayorLongitud.cleanMejorCamino();
+
+        //Ejercicio 5
+        Caminos caminos = new Caminos(grafo);
+        List<List<Integer>> result = caminos.obtenerCaminos(2, 5);
+        System.out.println("Caminos: " + result);
     }
 
     public static void cargarGrafo(Grafo<Double> grafo, int vertices) {
