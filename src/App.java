@@ -6,6 +6,7 @@ import java.util.Scanner;
 import Grafo.Grafo;
 import Grafo.GrafoD;
 import TP5.Solutions.Ej1;
+import TP5.Solutions.Ej2;
 
 public class App {
     private static final Scanner scanner = new Scanner(System.in);
@@ -27,15 +28,16 @@ public class App {
         }
         // Ejercicio 1
         System.out.println("|------------------------------------ Ejercicio 1 ----------------------------------------------------------|");
-        Ej1 ej1 = new Ej1(grafo);
-        System.out.println("Elija 2 vertices para determianr el camino mas largo entre ellos:");
-        System.out.print("Origen: ");
-        int origen = inputValue();
-        System.out.print("Destino: ");
-        int destino = inputValue();
-        System.out.println("Mejor camino: "+ej1.solucion(origen, destino));
+        //Ej1 ej1 = new Ej1(grafo);
+        //System.out.println("Elija 2 vertices para determianr el camino mas largo entre ellos:");
+        //System.out.print("Origen: ");
+        //int origen = inputValue();
+        //System.out.print("Destino: ");
+        //int destino = inputValue();
+        //System.out.println("Mejor camino: "+ej1.solucion(origen, destino));
         System.out.println("|------------------------------------ Ejercicio 2 ----------------------------------------------------------|");
-        // Ejercicio 2
+        Ej2 ej2 = new Ej2(5);
+        ej2.imprimirLaberinto();
         System.out.println("|------------------------------------ Ejercicio 3 ----------------------------------------------------------|");
         //System.out.print("Ingrese un numero decimal: ");
         //int num = inputValue();
