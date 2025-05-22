@@ -44,7 +44,7 @@ public class Ej2 {
         caminoActual.add(origen);
         valorAcumulado++;
         if(origen.equals(destino)){
-            if(valorAcumulado < this.mejorCamino.size()){
+            if(this.mejorCamino.isEmpty() || (valorAcumulado < this.mejorCamino.size())){
                 this.mejorCamino.clear();
                 this.mejorCamino.addAll(caminoActual);
             }
