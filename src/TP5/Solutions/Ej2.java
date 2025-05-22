@@ -1,5 +1,6 @@
 package TP5.Solutions;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import TP5.Clases.Celda;
@@ -27,20 +28,45 @@ public class Ej2 {
 
     public List<Posicion> solucion(Posicion origen, Posicion destino){
         List<Posicion> camino = new LinkedList<>();
+        HashMap<Posicion, Boolean> visitado = new HashMap<>();
+        for(int i = 0; i < tam; i++) {
+            for(int j = 0; j < tam; j++) {
+                visitado.put(new Posicion(i, j), false);
+            }
+        }
         int valorAcumulado = 0;
-        this.backtracking(origen, destino, camino, valorAcumulado);
+        this.backtracking(origen, destino, camino, valorAcumulado, visitado);
         return this.mejorCamino;
     }
 
-    private void backtracking(Posicion origen, Posicion destino, List<Posicion> caminoActual, int valorAcumulado){
+    private int backtracking(Posicion origen, Posicion destino, List<Posicion> caminoActual, int valorAcumulado, HashMap<Posicion, Boolean> visitado){
+        visitado.put(origen, true);
         caminoActual.add(origen);
+        valorAcumulado++;
         if(origen.equals(destino)){
             if(valorAcumulado < this.mejorCamino.size()){
                 this.mejorCamino.clear();
                 this.mejorCamino.addAll(caminoActual);
             }
         }
-        
+        for(Posicion adyacente : this.adyacentes(origen)){
+            if(!visitado.get(adyacente)){
+                valorAcumulado = this.backtracking(adyacente, destino, caminoActual, valorAcumulado, visitado);
+            }
+        }
+        visitado.put(origen, false);
+        caminoActual.removeLast();
+        return valorAcumulado;
+    }
+
+    private List<Posicion> adyacentes(Posicion actual){
+        List<Posicion> retorno = new LinkedList<>();
+        Celda actualCelda = this.laberinto[actual.getFila()][actual.getColumna()];
+        if(actualCelda.getPuedeIrNorte()) retorno.add(new Posicion(actual.getFila()-1, actual.getColumna()));
+        if(actualCelda.getPuedeIrEste()) retorno.add(new Posicion(actual.getFila(), actual.getColumna()+1));
+        if(actualCelda.getPuedeIrSur()) retorno.add(new Posicion(actual.getFila()+1, actual.getColumna()));
+        if(actualCelda.getPuedeIrOeste()) retorno.add(new Posicion(actual.getFila(), actual.getColumna()-1));
+        return retorno;
     }
 
     private Celda generarCelda(int fila, int columna) {
