@@ -5,7 +5,6 @@ import java.util.Scanner;
 
 import Grafo.Grafo;
 import Grafo.GrafoD;
-import TP5.Solutions.Ej1;
 import TP5.Solutions.Ej2;
 
 public class App {
