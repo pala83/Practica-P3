@@ -6,9 +6,16 @@ import java.util.List;
 import TP5.Clases.Celda;
 import TP5.Clases.Posicion;
 
+//Dado un laberinto consistente en una matriz cuadrada que tiene en cada posición un valor natural y
+//cuatro valores booleanos, indicando estos últimos si desde esa casilla se puede ir al norte, este, sur
+//y oeste, encontrar un camino de longitud mínima entre dos casillas dadas, siendo la longitud de un
+//camino la suma de los valores naturales de las casillas por las que pasa. Idea: podría representarse
+//el laberinto como una matriz, de objetos, donde cada objeto tiene el valor natural, y cuatro
+//booleanos, uno para cada dirección a la que se permite ir desde allí.
 public class Ej2 {
     private Celda[][] laberinto;
     private List<Posicion> mejorCamino;
+    private int mejorValor;
     private int tam;
 
     public Ej2(int tam) {
@@ -42,9 +49,10 @@ public class Ej2 {
     private int backtracking(Posicion origen, Posicion destino, List<Posicion> caminoActual, int valorAcumulado, HashMap<Posicion, Boolean> visitado){
         visitado.put(origen, true);
         caminoActual.add(origen);
-        valorAcumulado++;
+        valorAcumulado+=this.laberinto[origen.getFila()][origen.getColumna()].getValor();
         if(origen.equals(destino)){
-            if(this.mejorCamino.isEmpty() || (valorAcumulado < this.mejorCamino.size())){
+            if(this.mejorValor == 0 || valorAcumulado < this.mejorValor){
+                this.mejorValor = valorAcumulado;
                 this.mejorCamino.clear();
                 this.mejorCamino.addAll(caminoActual);
             }
