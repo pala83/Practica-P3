@@ -1,6 +1,6 @@
 package DTO;
 
-public class Maquina {
+public class Maquina implements Comparable<Maquina> {
     private final String id;
     private final int produccion;
 
@@ -17,5 +17,9 @@ public class Maquina {
     @Override
     public String toString() {
         return "[" + id + ", " + produccion + "]";
+    }
+    @Override
+    public int compareTo(Maquina o) {
+        return Integer.compare(o.produccion, this.produccion);
     }
 }

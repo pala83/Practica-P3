@@ -4,6 +4,7 @@ import java.util.List;
 import DTO.Calculador;
 import DTO.Maquina;
 import SolucionAlgoritmica.SolucionBacktracking;
+import SolucionAlgoritmica.SolucionGreedy;
 
 public class App {
     public static void main(String[] args) {
@@ -14,8 +15,13 @@ public class App {
         maquinas.add(new Maquina("M4",1));
 
         SolucionBacktracking solucionBacktracking = new SolucionBacktracking();
-        Calculador calculador = solucionBacktracking.calcular(maquinas, 13);
-        System.out.println(calculador);
+        SolucionGreedy solucionGreedy = new SolucionGreedy();
+        int totalPiezas = 16;
+        Calculador calculadorBK = solucionBacktracking.calcular(maquinas, totalPiezas);
+        Calculador calculadorGR = solucionGreedy.calcular(maquinas, totalPiezas);
+        System.out.println(calculadorBK);
         System.out.println("Cantidad de estados: " + solucionBacktracking.getCantActual());
+        System.out.println(calculadorGR);
+        System.out.println("Cantidad de estados: " + solucionGreedy.getCantActual());
     }
 }
