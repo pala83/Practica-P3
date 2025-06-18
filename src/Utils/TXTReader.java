@@ -11,13 +11,30 @@ import java.util.List;
 
 import DTO.Maquina;
 
-public class CSVReader {
+public class TXTReader {
 	private LinkedList<Maquina> maquinas;
 	private int piezasTotales;
+	private char regex;
 
-	public CSVReader() {
+    /**
+     * Lee un archivo .txt retorna la siguiente informacion:
+	 * <ul>
+	 * <li>La primera linea es el <strong>total de piezas a producir</strong>.</li>
+	 * <li>Las siguientes lineas son las <strong>maquinas</strong>, con el nombre y la produccion.</li>
+	 * </ul>
+     * Se debe respetar el siguiente formato:
+	 * <pre>
+	 * PiezasTotales
+	 * Máquina1,Piezas
+	 * ...
+	 * MáquinaN,Piezas
+	 * </pre>
+     * @param regex el delimitador utilizado para separar los campos en el archivo
+     */
+	public TXTReader(char regex) {
 		this.maquinas=new LinkedList<Maquina>();
 		this.piezasTotales=0;
+		this.regex = regex;
 	}
 	
 	public void readEngines(String enginesPath) {
@@ -45,7 +62,7 @@ public class CSVReader {
 			String line = null;
 			while ((line = bufferedReader.readLine()) != null) {
 				line = line.trim();
-				lines.add(line.split(";"));
+				lines.add(line.split(String.valueOf(this.regex)));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -59,6 +76,10 @@ public class CSVReader {
 		return lines;
 	}
 
+	public void setRegex(char regex) {
+		this.regex = regex;
+	}
+
     public List<Maquina> getMaquinas(){
         return List.copyOf(this.maquinas);
     }
@@ -68,8 +89,8 @@ public class CSVReader {
     }
 
     public static void main(String[] args) {
-        CSVReader reader = new CSVReader();
-        reader.readEngines("./src/Data/Maqinas1.csv");
+        TXTReader reader = new TXTReader(',');
+        reader.readEngines("./src/Data/Maqinas1.txt");
         System.out.println(reader.getMaquinas());
         System.out.println(reader.getPiezasTotales());
     }

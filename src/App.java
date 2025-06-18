@@ -1,27 +1,33 @@
-import java.util.ArrayList;
 import java.util.List;
-
-import DTO.Calculador;
+import CalculoAlgoritmico.Backtracking;
+import CalculoAlgoritmico.Greedy;
+import DTO.Solucion;
+import Utils.FileSelector;
+import Utils.TXTReader;
 import DTO.Maquina;
-import SolucionAlgoritmica.SolucionBacktracking;
-import SolucionAlgoritmica.SolucionGreedy;
 
 public class App {
     public static void main(String[] args) {
-        List<Maquina> maquinas = new ArrayList<>();
-        maquinas.add(new Maquina("M1",7));
-        maquinas.add(new Maquina("M2",3));
-        maquinas.add(new Maquina("M3",4));
-        maquinas.add(new Maquina("M4",1));
+        FileSelector selector = new FileSelector();
+        TXTReader reader = new TXTReader(',');
+        try {
+            reader.readEngines(selector.chooseDataFile("./src/Data").toString());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        List<Maquina> maquinas = reader.getMaquinas();
+        int totalPiezas = reader.getPiezasTotales();
 
-        SolucionBacktracking solucionBacktracking = new SolucionBacktracking();
-        SolucionGreedy solucionGreedy = new SolucionGreedy();
-        int totalPiezas = 16;
-        Calculador calculadorBK = solucionBacktracking.calcular(maquinas, totalPiezas);
-        Calculador calculadorGR = solucionGreedy.calcular(maquinas, totalPiezas);
-        System.out.println(calculadorBK);
-        System.out.println("Cantidad de estados: " + solucionBacktracking.getCantActual());
-        System.out.println(calculadorGR);
-        System.out.println("Cantidad de estados: " + solucionGreedy.getCantActual());
+        Backtracking backtracking = new Backtracking();
+        Greedy greedy = new Greedy();
+        Solucion solucionBK = backtracking.calcular(maquinas, totalPiezas);
+        Solucion solucionGR = greedy.calcular(maquinas, totalPiezas);
+        System.out.println("\nBacktracking");
+        System.out.println(solucionBK);
+        System.out.println("|- Cantidad de estados: " + backtracking.cantidadEstados());
+        System.out.println("\nGreedy");
+        System.out.println(solucionGR);
+        System.out.println("|- Cantidad de estados: " + greedy.cantidadEstados());
     }
 }
