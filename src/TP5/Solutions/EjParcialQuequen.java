@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Set;
 
 import Grafo.Grafo;
+import Grafo.GrafoD;
 
 public class EjParcialQuequen {
     // Dado un grafo no dirigido G que contiene varios ciclos, escriba un algoritmo en JAVA que devuelva (en una lista de nodos) el ciclo de mayor tamaño (o sea, el ciclo compuesto por la mayor cantidad de nodos).
@@ -116,7 +117,8 @@ public class EjParcialQuequen {
 
 
     public static void main(String[] args) {
-        EjParcialQuequen solucionador = new EjParcialQuequen();
+        Grafo<Integer> grafo = new GrafoD<>();
+        EjParcialQuequen solucionador = new EjParcialQuequen(grafo);
         Set<Integer> numeros = new HashSet<>();
         numeros.add(5);
         numeros.add(19);
