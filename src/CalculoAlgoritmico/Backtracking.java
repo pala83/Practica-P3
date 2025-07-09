@@ -81,33 +81,33 @@ public class Backtracking implements Calculador {
                 return new SinSolucion();
         }
         this.backtracking(new ArrayList<>(), inicio, 0);
-        return new Solucion(mejorSecuencia, totalPiezas, mejorSecuencia.size());
+        return mejorSecuencia.isEmpty() ? new SinSolucion() : new Solucion(mejorSecuencia, totalPiezas, mejorSecuencia.size());
     }
 
     private void backtracking(List<Maquina> arrTMP, int posicion, int acumulador) {
         estados++;
         arrTMP.add(this.maquinas.get(posicion));
         acumulador += this.maquinas.get(posicion).getProduccion();
-        // Condicion de corte: Si la secuencia actual es mejor que la mejor secuencia, se actualiza        
+        // Condicion de corte: Se produce la totalidad de piezas solicitadas
         if(acumulador == this.totalPiezas){
+            // Si la secuencia actual utiliza menos maquinas que la mejor secuencia, se actualiza
             if(mejorSecuencia.isEmpty() || arrTMP.size() <= mejorSecuencia.size()){
                 mejorSecuencia.clear();
                 mejorSecuencia.addAll(arrTMP);
             }
-            return;
-        }
-        // PODA1: Si la secuencia actual supera la mejor secuencia, no es necesario continuar
-        if(!mejorSecuencia.isEmpty() && arrTMP.size() >= mejorSecuencia.size())
-            return;
-        for(int subM = posicion; subM < this.maquinas.size(); subM++){
-            Maquina m = this.maquinas.get(subM);
-            // PODA2: Si el acumulador supera el total de piezas, no es necesario continuar
-            if(acumulador + m.getProduccion() <= this.totalPiezas){
-                backtracking(arrTMP, subM, acumulador);
-                arrTMP.removeLast();
+        } else 
+        // PODA1: Siempre y cuando no haya encontrado ninguna solucion o
+        // la secuencia actual tenga menos maquinas que la mejor secuencia, me interesa seguir buscando soluciones
+        if(mejorSecuencia.isEmpty() || arrTMP.size() < mejorSecuencia.size()) {
+            for(int subM = posicion; subM < this.maquinas.size(); subM++){
+                Maquina m = this.maquinas.get(subM);
+                // PODA2: Si el acumulador supera el total de piezas, no se busca mas
+                if(acumulador + m.getProduccion() <= this.totalPiezas){
+                    backtracking(arrTMP, subM, acumulador);
+                    arrTMP.removeLast();
+                }
             }
-        }
-        
+        }        
     }
 
     public int cantidadEstados() {
