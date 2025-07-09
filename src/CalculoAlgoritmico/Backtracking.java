@@ -6,6 +6,7 @@ import java.util.List;
 
 import DTO.Solucion;
 import DTO.Maquina;
+import DTO.SinSolucion;
 
 /**
  * Implementación de {@link Calculador} que utiliza backtracking con
@@ -18,7 +19,9 @@ import DTO.Maquina;
  */
 public class Backtracking implements Calculador {
     private List<Maquina> mejorSecuencia = new ArrayList<>();
+    private List<Maquina> maquinas = new ArrayList<>();
     private int estados;
+    private int totalPiezas;
 
     /**
      * {@inheritDoc}
@@ -61,6 +64,7 @@ public class Backtracking implements Calculador {
     @Override
     public Solucion calcular(List<Maquina> maquinas, int totalPiezas) {
         this.estados = 0;
+        this.totalPiezas = totalPiezas;
         /*
          * <strong>PODA:</strong> Se podria considerar una poda, ya que al tener las maquinas ordenadas de mayor a menor produccion,
          * se podria obtener la mejor secuencia posible en relacion a cantidad de maquinas en menor cantidad de iteraciones,
@@ -68,34 +72,42 @@ public class Backtracking implements Calculador {
          */
         List<Maquina> maquinasOrdenadas = new ArrayList<>(maquinas);
         Collections.sort(maquinasOrdenadas);
-        for (Maquina m : maquinasOrdenadas) 
-            this.backtracking(maquinasOrdenadas, m, totalPiezas, 0, new ArrayList<>());
+        this.maquinas = maquinasOrdenadas;
+        this.mejorSecuencia.clear();
+        int inicio = 0;
+        while(this.maquinas.get(inicio).getProduccion() > totalPiezas && inicio < this.maquinas.size()){
+            inicio++;
+            if(inicio == this.maquinas.size())
+                return new SinSolucion();
+        }
+        this.backtracking(new ArrayList<>(), inicio, 0);
         return new Solucion(mejorSecuencia, totalPiezas, mejorSecuencia.size());
     }
 
-    private void backtracking(List<Maquina> maquinas, 
-                              Maquina m, 
-                              int totalPiezas, 
-                              int acumulador, 
-                              List<Maquina> arrTMP) {
+    private void backtracking(List<Maquina> arrTMP, int posicion, int acumulador) {
         estados++;
-        arrTMP.add(m);
-        acumulador += m.getProduccion();
+        arrTMP.add(this.maquinas.get(posicion));
+        acumulador += this.maquinas.get(posicion).getProduccion();
+        // Condicion de corte: Si la secuencia actual es mejor que la mejor secuencia, se actualiza        
+        if(acumulador == this.totalPiezas){
+            if(mejorSecuencia.isEmpty() || arrTMP.size() <= mejorSecuencia.size()){
+                mejorSecuencia.clear();
+                mejorSecuencia.addAll(arrTMP);
+            }
+            return;
+        }
         // PODA1: Si la secuencia actual supera la mejor secuencia, no es necesario continuar
         if(!mejorSecuencia.isEmpty() && arrTMP.size() >= mejorSecuencia.size())
             return;
-        // PODA2: Si el acumulador supera el total de piezas, no es necesario continuar
-        if(acumulador > totalPiezas)
-            return;
-        if(acumulador == totalPiezas && arrTMP.size() <= (mejorSecuencia.isEmpty() ? Integer.MAX_VALUE : mejorSecuencia.size())){
-            mejorSecuencia.clear();
-            mejorSecuencia.addAll(arrTMP);
+        for(int subM = posicion; subM < this.maquinas.size(); subM++){
+            Maquina m = this.maquinas.get(subM);
+            // PODA2: Si el acumulador supera el total de piezas, no es necesario continuar
+            if(acumulador + m.getProduccion() <= this.totalPiezas){
+                backtracking(arrTMP, subM, acumulador);
+                arrTMP.removeLast();
+            }
         }
         
-        for(Maquina subM : maquinas){
-            backtracking(maquinas, subM, totalPiezas, acumulador, arrTMP);
-            arrTMP.remove(arrTMP.size()-1);
-        }
     }
 
     public int cantidadEstados() {

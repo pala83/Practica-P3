@@ -6,7 +6,9 @@ import java.util.LinkedList;
 import java.util.List;
 
 import DTO.Solucion;
+import DTO.SolucionAproximada;
 import DTO.Maquina;
+import DTO.SinSolucion;
 /**
  * Implementación de {@link Calculador} que utiliza un algoritmo de greedy para encontrar la secuencia óptima de máquinas que
  * minimiza la cantidad de arranques necesarios para producir exactamente el número de piezas objetivo.
@@ -67,6 +69,10 @@ public class Greedy implements Calculador {
             }
             estados++;
         }
+        if(secuencia.isEmpty())
+            return new SinSolucion();
+        if(acumulador < totalPiezas)
+            return new SolucionAproximada(secuencia, acumulador, secuencia.size());
         return new Solucion(secuencia, acumulador, secuencia.size());
     }
 
