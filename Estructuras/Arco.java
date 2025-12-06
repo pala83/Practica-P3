@@ -1,11 +1,11 @@
-package TP4.TDA.Arco;
+package Trabajos_Pracicos.Estructuras;
 
-public class Arco<T> {
+public class Arco {
     private int verticeOrigen;
 	private int verticeDestino;
-	private T etiqueta;
+	private int etiqueta;
 
-	public Arco(int verticeOrigen, int verticeDestino, T etiqueta) {
+	public Arco(int verticeOrigen, int verticeDestino, int etiqueta) {
 		this.verticeOrigen = verticeOrigen;
 		this.verticeDestino = verticeDestino;
 		this.etiqueta = etiqueta;
@@ -19,7 +19,7 @@ public class Arco<T> {
 		return verticeDestino;
 	}
 
-	public T getEtiqueta() {
+	public int getEtiqueta() {
 		return etiqueta;
 	}
 }

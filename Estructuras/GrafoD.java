@@ -1,4 +1,4 @@
-package TP4.TDA.Grafo;
+package Trabajos_Pracicos.Estructuras;
 
 import java.util.LinkedList;
 import java.util.HashMap;
@@ -7,11 +7,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import TP4.Iterable.ArcoIterator;
-import TP4.TDA.Arco.Arco;
+import Trabajos_Pracicos.Estructuras.Iterable.ArcoIterator;
 
-public class GrafoD<T> implements Grafo<T> {
-	private Map<Integer, List<Arco<T>>> adyacentes;
+
+public class GrafoD implements Grafo {
+	private Map<Integer, List<Arco>> adyacentes;
 
 	public GrafoD() {
 		this.adyacentes = new HashMap<>();
@@ -20,15 +20,15 @@ public class GrafoD<T> implements Grafo<T> {
 	@Override
 	public void agregarVertice(int verticeId) {
 		if(!this.contieneVertice(verticeId))
-			this.adyacentes.put(verticeId, new LinkedList<Arco<T>>());
+			this.adyacentes.put(verticeId, new LinkedList<Arco>());
 	}
 
 	@Override
 	public void borrarVertice(int verticeId) {
 		this.adyacentes.remove(verticeId);
 		for(Integer vertice : this.adyacentes.keySet()) {
-			List<Arco<T>> arcos = this.adyacentes.get(vertice);
-			for(Arco<T> arco : arcos) {
+			List<Arco> arcos = this.adyacentes.get(vertice);
+			for(Arco arco : arcos) {
 				if(arco.getVerticeDestino() == verticeId)
 					arcos.remove(arco);
 			}
@@ -36,15 +36,15 @@ public class GrafoD<T> implements Grafo<T> {
 	}
 
 	@Override
-	public void agregarArco(int verticeId1, int verticeId2, T etiqueta) {
+	public void agregarArco(int verticeId1, int verticeId2, int etiqueta) {
 		if(this.contieneVertice(verticeId1))
-			this.adyacentes.get(verticeId1).add(new Arco<T>(verticeId1, verticeId2, etiqueta));
+			this.adyacentes.get(verticeId1).add(new Arco(verticeId1, verticeId2, etiqueta));
 	}
 
 	@Override
 	public void borrarArco(int verticeId1, int verticeId2) {
 		if(this.contieneVertice(verticeId1)){
-			List<Arco<T>> arcos = this.adyacentes.get(verticeId1);
+			List<Arco> arcos = this.adyacentes.get(verticeId1);
 			arcos.remove(this.obtenerArco(verticeId1, verticeId2));
 		}
 	}
@@ -57,16 +57,16 @@ public class GrafoD<T> implements Grafo<T> {
 	@Override
 	public boolean existeArco(int verticeId1, int verticeId2) {
 		if(this.contieneVertice(verticeId1))
-			for(Arco<T> arco : this.adyacentes.get(verticeId1))
+			for(Arco arco : this.adyacentes.get(verticeId1))
 				if (arco.getVerticeDestino() == verticeId2)
 					return true;
 		return false;
 	}
 
 	@Override
-	public Arco<T> obtenerArco(int verticeId1, int verticeId2) {
+	public Arco obtenerArco(int verticeId1, int verticeId2) {
 		if(this.contieneVertice(verticeId1))
-			for(Arco<T> arco : this.adyacentes.get(verticeId1))
+			for(Arco arco : this.adyacentes.get(verticeId1))
 				if(arco.getVerticeDestino() == verticeId2)
 					return arco;
 		return null;
@@ -80,7 +80,7 @@ public class GrafoD<T> implements Grafo<T> {
 	@Override
 	public int cantidadArcos() {
 		int size = 0;
-		for(List<Arco<T>> arcos : this.adyacentes.values()) {
+		for(List<Arco> arcos : this.adyacentes.values()) {
 			size += arcos.size();
 		}
 		return size;
@@ -94,23 +94,23 @@ public class GrafoD<T> implements Grafo<T> {
 
 	@Override
 	public Iterator<Integer> obtenerAdyacentes(int verticeId) {
-		List<Arco<T>> retorno = adyacentes.get(verticeId);
+		List<Arco> retorno = adyacentes.get(verticeId);
 		if(retorno != null)
-			return new ArcoIterator<>(retorno.iterator());
+			return new ArcoIterator(retorno.iterator());
 		return null;
 	}
 	
 	@Override
-	public Iterator<Arco<T>> obtenerArcos() {
-		List<Arco<T>> arcos = new LinkedList<>();
-		for(List<Arco<T>> listaArcos : this.adyacentes.values()) {
+	public Iterator<Arco> obtenerArcos() {
+		List<Arco> arcos = new LinkedList<>();
+		for(List<Arco> listaArcos : this.adyacentes.values()) {
 			arcos.addAll(listaArcos);
 		}
 		return arcos.iterator();
 	}
 
 	@Override
-	public Iterator<Arco<T>> obtenerArcos(int verticeId) {
+	public Iterator<Arco> obtenerArcos(int verticeId) {
 		if(this.contieneVertice(verticeId))
 			return this.adyacentes.get(verticeId).iterator();
 		return null;

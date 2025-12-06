@@ -1,9 +1,9 @@
-package TP4.TDA.Grafo;
+package Trabajos_Pracicos.Estructuras;
 
-public class GrafoND<T> extends GrafoD<T> {
+public class GrafoND extends GrafoD {
 
 	@Override
-	public void agregarArco(int verticeId1, int verticeId2, T etiqueta) {
+	public void agregarArco(int verticeId1, int verticeId2, int etiqueta) {
 		super.agregarArco(verticeId1, verticeId2, etiqueta);
 		super.agregarArco(verticeId2, verticeId1, etiqueta);
 	}

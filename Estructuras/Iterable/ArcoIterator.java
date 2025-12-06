@@ -1,12 +1,13 @@
-package TP4.Iterable;
+package Trabajos_Pracicos.Estructuras.Iterable;
 
 import java.util.Iterator;
-import TP4.TDA.Arco.Arco;
 
-public class ArcoIterator<T> implements Iterator<Integer> {
-    private Iterator<Arco<T>> itArco;
+import Trabajos_Pracicos.Estructuras.Arco;
 
-    public ArcoIterator(Iterator<Arco<T>> itArco) {
+public class ArcoIterator implements Iterator<Integer> {
+    private Iterator<Arco> itArco;
+
+    public ArcoIterator(Iterator<Arco> itArco) {
         this.itArco = itArco;
     }
 
