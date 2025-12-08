@@ -46,33 +46,3 @@ c. Se podría adaptar el algoritmo de Dijkstra para encontrar el camino más lar
 d. Un hilo de ejecución (thread) puede estar compuesto por varios programas en ejecución (procesos).
 
 > **Falso**. Un hilo (thread) es una unidad de ejecución que pertenece a un proceso. Un hilo no puede estar “compuesto por varios procesos”. Un proceso puede contener varios hilos que comparten el mismo espacio de direcciones y recursos del proceso.
-
-``` mermaid
-graph LR
-    A((A))
-    B((B))
-    E((C))
-    C((D))
-    D((E))
-    F((F))
-    G((G))
-    H((H))
-    I((I))
-    J((J))
-    A <--> B
-    A <--> F
-    A <--> G
-    B <--> F
-    B <--> G
-    F <--> G
-    G <--> C
-    G <--> H
-    G <--> I
-    C <--> H
-    C <--> I
-    I <--> H
-    H <--> D
-    H <--> E
-    H <--> J
-    D <--> E
-```

@@ -87,8 +87,8 @@ Se observa que **$A$ es punto de articulacion**, ya que al generar el recorrido 
 graph TD
     A(("A (1|1)"))
     B(("B (2|1)"))
-    C(("C (4|1)"))
-    D(("D (3|1)"))
+    C(("C (3|1)"))
+    D(("D (4|1)"))
 
     A --> B
     B --> C
@@ -96,7 +96,7 @@ graph TD
 ```
 ---
 
-**Caso 2**: Si no es la raiz del DFS y existe un hijo tal que `low[hijo] >= disc[nodo_actual]`.
+**Caso 2**: Si no es la raiz del DFS y existe un hijo tal que $low[hijo] \geq disc[nodo\_actual]$.
 ``` java
 if (parent[nodo] != -1 && low[adyacente] >= disc[nodo])
     esPuntoArticulacion[nodo] = true;
@@ -112,7 +112,7 @@ graph LR
     B --- C
     C --- D
 ```
-Se observa que **$C$ es punto de articulacion** ya que `low[D] (4) >= disc[C] (3)` y $A$ solo tiene 1 **hijo**.
+Se observa que **$C$ es punto de articulacion** ya que $low[D] (4) \geq disc[C] (3)$ y $A$ solo tiene 1 **hijo**.
 ``` mermaid
 graph TD
     A(("A (1|1)"))

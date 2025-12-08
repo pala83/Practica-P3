@@ -10,30 +10,6 @@ import java.util.List;
 //  a) Describir cuál sería la estrategia Greedy que seguirá.
 //  b) Plantear el algoritmo en Java que lo resuelva mediante dicha estrategia Greedy.
 
-/*
- * ============================================================================
- * a) ESTRATEGIA GREEDY:
- * ============================================================================
- * 
- * 1. ORDENAR las cajas por resistencia de MAYOR a MENOR.
- *    - Las cajas más resistentes van abajo (soportan más peso encima).
- * 
- * 2. Para cada caja (en orden de mayor a menor resistencia):
- *    - Intentar colocarla en una columna existente donde la caja de arriba
- *      pueda soportar el peso de esta nueva caja.
- *    - Si no cabe en ninguna columna existente, crear una nueva columna.
- * 
- * 3. La decisión greedy: siempre colocamos la caja en la primera columna
- *    donde quepa, priorizando reutilizar columnas existentes.
- * 
- * ¿Por qué funciona?
- * - Al ordenar por resistencia descendente, garantizamos que las cajas
- *   más fuertes estén abajo y las más débiles arriba.
- * - Cada caja solo necesita soportar el peso de las cajas que están ENCIMA.
- * 
- * ============================================================================
- */
-
 public class Ej3 {
 
     // Clase para representar una caja
@@ -49,10 +25,13 @@ public class Ej3 {
         public int getPeso() { return peso; }
         public int getResistencia() { return resistencia; }
 
-        // Ordenar por resistencia de MAYOR a MENOR
+        // Ordenar por (resistencia + peso) de MAYOR a MENOR
+        // Esto prioriza cajas que son buenas bases: alta resistencia y considerando su peso
         @Override
         public int compareTo(Caja otra) {
-            return Integer.compare(otra.resistencia, this.resistencia);
+            int capacidadThis = this.resistencia + this.peso;
+            int capacidadOtra = otra.resistencia + otra.peso;
+            return Integer.compare(capacidadOtra, capacidadThis);
         }
 
         @Override
@@ -64,11 +43,11 @@ public class Ej3 {
     // Clase para representar una columna de cajas
     public static class Columna {
         private List<Caja> cajas;
-        private int pesoTotal; // Peso acumulado de todas las cajas en la columna
+        private int capacidadRestante; // Mínima capacidad de soporte restante en la columna (cuello de botella)
 
         public Columna() {
             this.cajas = new ArrayList<>();
-            this.pesoTotal = 0;
+            this.capacidadRestante = Integer.MAX_VALUE;
         }
 
         // Verifica si se puede agregar una caja encima de la columna
@@ -76,25 +55,29 @@ public class Ej3 {
             if (cajas.isEmpty()) {
                 return true; // Columna vacía, siempre se puede
             }
-            // La caja del tope debe soportar el peso de la nueva caja
-            Caja cajaDelTope = cajas.get(cajas.size() - 1);
-            return cajaDelTope.getResistencia() >= caja.getPeso();
+            // Verificamos si la capacidad restante de la columna soporta el peso de la nueva caja
+            // Esto asegura que NINGUNA caja de abajo se rompa
+            return capacidadRestante >= caja.getPeso();
         }
 
         // Agrega una caja a la columna
         public void agregar(Caja caja) {
             cajas.add(caja);
-            pesoTotal += caja.getPeso();
+            if (cajas.size() == 1) {
+                // Primera caja: la capacidad es su resistencia
+                capacidadRestante = caja.getResistencia();
+            } else {
+                // Actualizamos la capacidad restante:
+                // 1. Restamos el peso de la nueva caja a la capacidad que traíamos (afecta a las de abajo)
+                // 2. La nueva caja impone su propia resistencia como nuevo límite superior
+                capacidadRestante = Math.min(capacidadRestante - caja.getPeso(), caja.getResistencia());
+            }
         }
 
         public List<Caja> getCajas() { return cajas; }
-        public int getPesoTotal() { return pesoTotal; }
+        public int getCapacidadRestante() { return capacidadRestante; }
     }
 
-    /**
-     * b) ALGORITMO GREEDY
-     * Determina el mínimo número de columnas necesarias para apilar las cajas.
-     */
     public int minimoCantidadColumnas(List<Caja> cajas) {
         if (cajas == null || cajas.isEmpty()) {
             return 0;
@@ -164,6 +147,7 @@ public class Ej3 {
 
         List<Caja> cajas = new ArrayList<>();
         cajas.add(new Caja(50, 100));
+        cajas.add(new Caja(50, 50));
         cajas.add(new Caja(30, 80));
         cajas.add(new Caja(40, 60));
         cajas.add(new Caja(20, 30));
@@ -183,7 +167,13 @@ public class Ej3 {
         System.out.println("\n=== Ejemplo 2 ===");
         List<Caja> cajas2 = new ArrayList<>();
         cajas2.add(new Caja(100, 50));  // Muy pesada, poca resistencia
-        cajas2.add(new Caja(80, 40));   
+        cajas2.add(new Caja(80, 40));
+        cajas2.add(new Caja(50, 50));
+        cajas2.add(new Caja(50, 10));
+        cajas2.add(new Caja(50, 20));
+        cajas2.add(new Caja(50, 30));
+        cajas2.add(new Caja(8, 400));
+        cajas2.add(new Caja(800, 4));
         cajas2.add(new Caja(60, 30));   
         cajas2.add(new Caja(10, 200));  // Liviana, muy resistente
         
