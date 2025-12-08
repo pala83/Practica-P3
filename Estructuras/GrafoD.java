@@ -2,12 +2,8 @@ package Trabajos_Pracicos.Estructuras;
 
 import java.util.LinkedList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-
-import Trabajos_Pracicos.Estructuras.Iterable.ArcoIterator;
 
 
 public class GrafoD implements Grafo {
@@ -87,33 +83,35 @@ public class GrafoD implements Grafo {
 	}
 
 	@Override
-	public Iterator<Integer> obtenerVertices() {
-		Set<Integer> vertices = this.adyacentes.keySet();
-		return vertices.iterator();
+	public Iterable<Integer> obtenerVertices() {
+		return this.adyacentes.keySet();
 	}
 
 	@Override
-	public Iterator<Integer> obtenerAdyacentes(int verticeId) {
-		List<Arco> retorno = adyacentes.get(verticeId);
-		if(retorno != null)
-			return new ArcoIterator(retorno.iterator());
-		return null;
+	public Iterable<Integer> obtenerAdyacentes(int verticeId) {
+		List<Arco> arcos = adyacentes.get(verticeId);
+		if (arcos != null) {
+		return () -> arcos.stream()
+							.map(Arco::getVerticeDestino)
+							.iterator();
+		}
+		return new LinkedList<>();
 	}
 	
 	@Override
-	public Iterator<Arco> obtenerArcos() {
+	public Iterable<Arco> obtenerArcos() {
 		List<Arco> arcos = new LinkedList<>();
 		for(List<Arco> listaArcos : this.adyacentes.values()) {
 			arcos.addAll(listaArcos);
 		}
-		return arcos.iterator();
+		return arcos;
 	}
 
 	@Override
-	public Iterator<Arco> obtenerArcos(int verticeId) {
+	public Iterable<Arco> obtenerArcos(int verticeId) {
 		if(this.contieneVertice(verticeId))
-			return this.adyacentes.get(verticeId).iterator();
-		return null;
+			return this.adyacentes.get(verticeId);
+		return new LinkedList<>();
 	}
 
 }

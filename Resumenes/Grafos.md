@@ -27,16 +27,16 @@ graph LR
     E((Las Flores))
     F((Olavarria))
     G((Balcarce))
-    A -- 70 <--> B
-    A -- 100 <--> C
-    B -- 77 <--> C
-    B -- 70 <--> D
-    B -- 91 <--> E
-    C -- 116 <--> E
-    C -- 56 <--> F
-    D -- 77 <--> A
-    G -- 96 <--> D
-    G -- 108 <--> A
+    A -- 70 --- B
+    A -- 100 --- C
+    B -- 77 --- C
+    B -- 70 --- D
+    B -- 91 --- E
+    C -- 116 --- E
+    C -- 56 --- F
+    D -- 77 --- A
+    G -- 96 --- D
+    G -- 108 --- A
 
 ```
 
@@ -77,12 +77,12 @@ graph LR
     C((C))
     D((D))
     E((E))
-    A --> A
-    A <--> B
-    A <--> C
-    A <--> D
-    C <--> D
-    C <--> E
+    A --- A
+    A --- B
+    A --- C
+    A --- D
+    C --- D
+    C --- E
 ```
 > GND no Conectado (o no conexo)
 ``` mermaid
@@ -92,10 +92,10 @@ graph LR
     C((C))
     D((D))
     E((E))
-    A --> A
-    A <--> B
-    C <--> D
-    C <--> E
+    A --- A
+    A --- B
+    C --- D
+    C --- E
 ```
 # Adyacencia y Caminos
 Sea un grafo $G = (V, A)$ donde $V$ es el conjunto de vértices y $A$ el conjunto de aristas.

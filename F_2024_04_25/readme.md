@@ -13,7 +13,7 @@ La solucion mas eficiente seria un **Arbol binario de busqueda** que si bien, pa
 
 ## Solucion:
 > Baldes de rebase con $\rho < 1$
-**Si, puede haber baldes de rebase**, Si un balde específico recibe más claves que su capacidad de ranuras ($r_p$), se generará una lista de rebase (overflow) localmente, independientemente de que el resto de la tabla esté vacía15151515.. El factor de carga $\rho$ es un promedio global y no garantiza que cada balde individual cumpla con la condición de no desbordamiento. Por lo tanto, aunque $\rho < 1$ indica que, en promedio, hay menos claves que ranuras en la tabla, no impide que algunos baldes específicos puedan desbordarse debido a una distribución desigual de las claves.
+**Si, puede haber baldes de rebase**, Si un balde específico recibe más claves que su capacidad de ranuras ($r_p$), se generará una lista de rebase (overflow) localmente, independientemente de que el resto de la tabla esté vacía.. El factor de carga $\rho$ es un promedio global y no garantiza que cada balde individual cumpla con la condición de no desbordamiento. Por lo tanto, aunque $\rho < 1$ indica que, en promedio, hay menos claves que ranuras en la tabla, no impide que algunos baldes específicos puedan desbordarse debido a una distribución desigual de las claves.
 
 ---
 - ¿Bajo qué circunstancias una búsqueda en una tabla de hashing abierto con rebase separado puede tener una eficiencia similar a buscar en una lista vinculada con los elementos?
@@ -47,3 +47,32 @@ d. Un hilo de ejecución (thread) puede estar compuesto por varios programas en 
 
 > **Falso**. Un hilo (thread) es una unidad de ejecución que pertenece a un proceso. Un hilo no puede estar “compuesto por varios procesos”. Un proceso puede contener varios hilos que comparten el mismo espacio de direcciones y recursos del proceso.
 
+``` mermaid
+graph LR
+    A((A))
+    B((B))
+    E((C))
+    C((D))
+    D((E))
+    F((F))
+    G((G))
+    H((H))
+    I((I))
+    J((J))
+    A <--> B
+    A <--> F
+    A <--> G
+    B <--> F
+    B <--> G
+    F <--> G
+    G <--> C
+    G <--> H
+    G <--> I
+    C <--> H
+    C <--> I
+    I <--> H
+    H <--> D
+    H <--> E
+    H <--> J
+    D <--> E
+```
