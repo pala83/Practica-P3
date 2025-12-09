@@ -114,9 +114,6 @@ public class Ej3 {
         return columnas.size();
     }
 
-    /**
-     * Versión que también retorna cómo quedaron organizadas las columnas.
-     */
     public List<Columna> organizarCajas(List<Caja> cajas) {
         List<Caja> cajasOrdenadas = new ArrayList<>(cajas);
         Collections.sort(cajasOrdenadas);
@@ -166,7 +163,7 @@ public class Ej3 {
         // Ejemplo 2: Cajas que necesitan más columnas
         System.out.println("\n=== Ejemplo 2 ===");
         List<Caja> cajas2 = new ArrayList<>();
-        cajas2.add(new Caja(100, 50));  // Muy pesada, poca resistencia
+        cajas2.add(new Caja(100, 50));
         cajas2.add(new Caja(80, 40));
         cajas2.add(new Caja(50, 50));
         cajas2.add(new Caja(50, 10));
@@ -174,8 +171,8 @@ public class Ej3 {
         cajas2.add(new Caja(50, 30));
         cajas2.add(new Caja(8, 400));
         cajas2.add(new Caja(800, 4));
-        cajas2.add(new Caja(60, 30));   
-        cajas2.add(new Caja(10, 200));  // Liviana, muy resistente
+        cajas2.add(new Caja(60, 30));
+        cajas2.add(new Caja(10, 200));
         
         System.out.println("Cajas: " + cajas2);
         List<Columna> resultado2 = ejercicio.organizarCajas(cajas2);
