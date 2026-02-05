@@ -22,4 +22,9 @@ public class Arco {
 	public int getEtiqueta() {
 		return etiqueta;
 	}
+
+	@Override
+	public String toString() {
+		return "[" + verticeOrigen + " --> " + verticeDestino + " (" + etiqueta + ")]";
+	}
 }

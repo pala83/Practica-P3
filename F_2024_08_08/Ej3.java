@@ -2,6 +2,7 @@ package Trabajos_Pracicos.F_2024_08_08;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
 // Roberto tiene un empleo nuevo en un depósito de cajas, y su primera tarea es organizar todas las cajas. Al ser su primer día, quiere hacer un buen trabajo, y decide ubicar las cajas en columnas para ahorrar la mayor cantidad de espacio del depósito posible. De cada caja, Roberto conoce su peso (medida en kilogramos) y su resistencia (también medida en kilogramos). Por ejemplo, si sobre una caja que tiene una resistencia de 100 kilogramos se apilan cajas que juntas suman más de 100 kg, la caja en cuestión no podrá resistir el peso y se romperá.
@@ -25,8 +26,7 @@ public class Ej3 {
         public int getPeso() { return peso; }
         public int getResistencia() { return resistencia; }
 
-        // Ordenar por (resistencia + peso) de MAYOR a MENOR
-        // Esto prioriza cajas que son buenas bases: alta resistencia y considerando su peso
+        // Metodo de ordenamiento (resistencia + peso) de MAYOR a MENOR
         @Override
         public int compareTo(Caja otra) {
             int capacidadThis = this.resistencia + this.peso;
@@ -43,7 +43,7 @@ public class Ej3 {
     // Clase para representar una columna de cajas
     public static class Columna {
         private List<Caja> cajas;
-        private int capacidadRestante; // Mínima capacidad de soporte restante en la columna (cuello de botella)
+        private int capacidadRestante;
 
         public Columna() {
             this.cajas = new ArrayList<>();
@@ -53,10 +53,8 @@ public class Ej3 {
         // Verifica si se puede agregar una caja encima de la columna
         public boolean puedeAgregar(Caja caja) {
             if (cajas.isEmpty()) {
-                return true; // Columna vacía, siempre se puede
+                return true;
             }
-            // Verificamos si la capacidad restante de la columna soporta el peso de la nueva caja
-            // Esto asegura que NINGUNA caja de abajo se rompa
             return capacidadRestante >= caja.getPeso();
         }
 
@@ -64,54 +62,14 @@ public class Ej3 {
         public void agregar(Caja caja) {
             cajas.add(caja);
             if (cajas.size() == 1) {
-                // Primera caja: la capacidad es su resistencia
                 capacidadRestante = caja.getResistencia();
             } else {
-                // Actualizamos la capacidad restante:
-                // 1. Restamos el peso de la nueva caja a la capacidad que traíamos (afecta a las de abajo)
-                // 2. La nueva caja impone su propia resistencia como nuevo límite superior
                 capacidadRestante = Math.min(capacidadRestante - caja.getPeso(), caja.getResistencia());
             }
         }
 
         public List<Caja> getCajas() { return cajas; }
         public int getCapacidadRestante() { return capacidadRestante; }
-    }
-
-    public int minimoCantidadColumnas(List<Caja> cajas) {
-        if (cajas == null || cajas.isEmpty()) {
-            return 0;
-        }
-
-        // 1. Ordenar cajas por resistencia de MAYOR a MENOR
-        List<Caja> cajasOrdenadas = new ArrayList<>(cajas);
-        Collections.sort(cajasOrdenadas);
-
-        // 2. Lista de columnas
-        List<Columna> columnas = new ArrayList<>();
-
-        // 3. Para cada caja, intentar ubicarla en una columna existente
-        for (Caja caja : cajasOrdenadas) {
-            boolean ubicada = false;
-
-            // Buscar una columna donde quepa la caja
-            for (Columna columna : columnas) {
-                if (columna.puedeAgregar(caja)) {
-                    columna.agregar(caja);
-                    ubicada = true;
-                    break; // Decisión greedy: primera columna disponible
-                }
-            }
-
-            // Si no cabe en ninguna columna, crear una nueva
-            if (!ubicada) {
-                Columna nuevaColumna = new Columna();
-                nuevaColumna.agregar(caja);
-                columnas.add(nuevaColumna);
-            }
-        }
-
-        return columnas.size();
     }
 
     public List<Columna> organizarCajas(List<Caja> cajas) {
@@ -121,12 +79,13 @@ public class Ej3 {
 
         for (Caja caja : cajasOrdenadas) {
             boolean ubicada = false;
+            Iterator<Columna> it = columnas.iterator();
 
-            for (Columna columna : columnas) {
+            while (!ubicada && it.hasNext()) {
+                Columna columna = it.next();
                 if (columna.puedeAgregar(caja)) {
                     columna.agregar(caja);
                     ubicada = true;
-                    break;
                 }
             }
 

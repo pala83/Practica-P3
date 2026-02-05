@@ -18,4 +18,18 @@ public class GrafoND extends GrafoD {
 	public int cantidadArcos() {
 		return super.cantidadArcos() / 2;
 	}
+
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("GrafoND:\n");
+		for (Integer vertice : this.obtenerVertices()) {
+			sb.append("Vertice ").append(vertice).append(": ");
+			for (Arco arco : this.obtenerArcos(vertice)) {
+				sb.append(arco);
+			}
+			sb.append("\n");
+		}
+		return sb.toString();
+	}
 }
